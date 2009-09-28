@@ -1,0 +1,26 @@
+///////////////////////////////////////////////////////////////////////////////////////////
+
+  O)) O)                          O))           O))  O)) O)     O))))     O)))     O))
+O))    O)) O)                     O))           O))O))    O)) O))    O))  O) O))   O))
+ O))         O))) O)) O)) O) O))  O))   O))     O)) O))     O))        O))O)) O))  O))
+   O))    O)) O))  O)  O))O)  O)) O)) O)   O))  O))   O))   O))        O))O))  O)) O))
+      O)) O)) O))  O)  O))O)   O))O))O))))) O)) O))      O))O))        O))O))   O) O))
+O))    O))O)) O))  O)  O))O)) O)) O))O)    O)   O))O))    O)) O))     O)) O))    O) ))
+  O)) O)  O))O)))  O)  O))O))    O)))  O))))O))))    O)) O)     O))))     O))      O))
+                          O))                                                         
+
+///////////////////////////////////////////////////////////////////////////////////////////
+SimpleJSON is a JSON frontend server to Amazon's SimpleDB,
+designed to be used as a simple backend data servers for client side web apps.
+
+- Client agnostic, works with any XHR.
+- All XHR are packed inside "HTTP POST" bodies.
+- Schema less, same as underlying SimpleDB technology.
+- Map HTTP paths to SimpleDB domains and actions.
+- Uses SimpleDB query syntax.
+- All request objects identifiers are specified as JSON objects tree, allowing multi-objects fetching   in one request.
+- Allows "Get" and "Set" with single multiple rows/fields specified as JSON objects.
+- Ruby/Rack based, can be deployed on any Rack aware web server.
+
+///////////////////////////////////////////////////////////////////////////////////////////
+ 
