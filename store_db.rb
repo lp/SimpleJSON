@@ -6,14 +6,13 @@ class SimpleJSON
 	# 
 	# :title:SimpleJSON::DB
 	class DB
-		# require File.join( File.dirname( File.expand_path(__FILE__)),'aws-sdb','lib','aws_sdb')
 		require 'aws_sdb'
 
 		# id generated in client?
 		# in js = < '' + date.getTime() + Math.floor(Math.random()*1000) >
 		def initialize(domain)
 			@domain = domain
-			@sdb = AwsSdb::Service.new
+			@sdb = AwsSdb::Service.new(:logger=>LogDuck.new)
 			create_domain unless domain_exist?
 		end
 
@@ -103,6 +102,7 @@ class SimpleJSON
 			domains, dummy = @sdb.list_domains
 			domains.include?(@domain)
 		end
-
+		
+		class LogDuck; def debug(*args); end; end
 	end
 end
