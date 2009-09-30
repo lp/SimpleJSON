@@ -16,34 +16,32 @@ class SimpleJSON
 		end
 	}
 	
+	def self.echo(opts=nil)
+		lambda { |env| CrashProof.wrap { Bootstrap.config(opts); Response.generate( Request.parse( Body.get(env))) }}
+	end
+	
 	def self.set(opts=nil)
-		Bootstrap.config(opts)
-		lambda { |env| Response.generate( @@store.set( 		Request.parse( env['rack.input'].read )))}
+		lambda { |env| CrashProof.wrap { Bootstrap.config(opts); Response.generate( @@store.set( 		Request.parse( Body.get(env)))) }}
 	end
 	
 	def self.add(opts=nil)
-		Bootstrap.config(opts)
-		lambda { |env| Response.generate( @@store.add( 		Request.parse( env['rack.input'].read )))}
+		lambda { |env| CrashProof.wrap { Bootstrap.config(opts); Response.generate( @@store.add( 		Request.parse( Body.get(env)))) }}
 	end
 	
 	def self.delete(opts=nil)
-		Bootstrap.config(opts)
-		lambda { |env| Response.generate( @@store.delete(	Request.parse( env['rack.input'].read )))}
+		lambda { |env| CrashProof.wrap { Bootstrap.config(opts); Response.generate( @@store.delete(	Request.parse( Body.get(env)))) }}
 	end
 	
 	def self.get(opts=nil)
-		Bootstrap.config(opts)
-		lambda { |env| Response.generate( @@store.get( 		Request.parse( env['rack.input'].read )))}
+		lambda { |env| CrashProof.wrap { Bootstrap.config(opts); Response.generate( @@store.get( 		Request.parse( Body.get(env)))) }}
 	end
 	
 	def self.query(opts=nil)
-		Bootstrap.config(opts)
-		lambda { |env| Response.generate( @@store.query( 	Request.parse( env['rack.input'].read )))}
+		lambda { |env| CrashProof.wrap { Bootstrap.config(opts); Response.generate( @@store.query( 	Request.parse( Body.get(env)))) }}
 	end
 	
 	def self.rack_mock(m,data,opts=nil)
-		Bootstrap.config(opts)
-		Response.generate( @@store.send( m, Request.parse( data)))
+		CrashProof.wrap { Bootstrap.config(opts); Response.generate( @@store.send( m, Request.parse( data))) }
 	end
 	
 end
