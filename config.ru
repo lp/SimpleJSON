@@ -1,5 +1,5 @@
 require 'rack'
-require File.join( File.dirname( File.expand_path(__FILE__)), 'store')
+require File.join( File.dirname( File.expand_path(__FILE__)), 'simple_json')
 
 run Rack::URLMap.new(
 	'/echo'			=> SimpleJSON.echo,

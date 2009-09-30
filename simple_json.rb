@@ -5,12 +5,12 @@
 # 
 # :title:SimpleJSON
 class SimpleJSON
-	require File.join( File.dirname( File.expand_path(__FILE__)), 'store_helpers')
+	require File.join( File.dirname( File.expand_path(__FILE__)), 'simple_json_helpers')
 	
 	BEGIN {
-		require File.join( File.dirname( File.expand_path(__FILE__)), 'store_db')
-		require File.join( File.dirname( File.expand_path(__FILE__)), 'store_bootstrap.rb')
-		file = File.join( File.dirname( File.expand_path(__FILE__)), 'store_config.rb')
+		require File.join( File.dirname( File.expand_path(__FILE__)), 'simple_json_db')
+		require File.join( File.dirname( File.expand_path(__FILE__)), 'simple_json_bootstrap')
+		file = File.join( File.dirname( File.expand_path(__FILE__)), 'simple_json_config.rb')
 		if File.exist?(file)
 			SimpleJSON::Bootstrap.config(file)
 		end

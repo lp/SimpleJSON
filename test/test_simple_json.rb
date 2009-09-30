@@ -1,9 +1,10 @@
 require 'rubygems'
 require 'test/unit'
 require 'json'
-# require 'rubygems'
-require File.join( File.dirname( File.expand_path(__FILE__)), '..','aws-sdb','lib','aws_sdb')
-require File.join( File.dirname( File.expand_path(__FILE__)), '..','store')
+
+# require File.join( File.dirname( File.expand_path(__FILE__)), '..','aws-sdb','lib','aws_sdb')
+require 'aws_sdb'
+require File.join( File.dirname( File.expand_path(__FILE__)), '..','simple_json')
 
 class TestSimpleJSONDB < Test::Unit::TestCase
 	BEGIN {
@@ -12,7 +13,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 	
 	def test_01_bootload
 		@@sdb = AwsSdb::Service.new
-		config = eval(File.open(File.join( File.dirname( File.expand_path(__FILE__)), '..','store_config.rb'), 'r').read)
+		config = eval(File.open(File.join( File.dirname( File.expand_path(__FILE__)), '..','simple_json_config.rb'), 'r').read)
 		assert(@@sdb.list_domains[0].include?(config['AMAZON_DOMAIN']), 'boot?')
 	end
 	
