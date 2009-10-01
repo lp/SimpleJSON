@@ -18,13 +18,13 @@ class SimpleJSON
 
 		def set(data)
 			# in: data = {'id' => {:key1 => value1, :key2 => value2}}
-			# out: data = {'id' => {:key1 => true, :key2 => [false, 'Error Message']}}
+			# out: data = {'id' => true} || {'id' => {"error"=>"message"}}
 			parse(data) {|k,v| @sdb.put_attributes(@domain,k,v) }
 		end
 
 		def add(data)
 			# in: data = {'id' => {:key1 => value1, :key2 => value2}}
-			# out: data = {'id' => {:key1 => true, :key2 => [false, 'Error Message']}}
+			# out: data = {'id' => true} || {'id' => {"error"=>"message"}}
 			parse(data) {|k,v| @sdb.put_attributes(@domain,k,v,false) }
 		end
 

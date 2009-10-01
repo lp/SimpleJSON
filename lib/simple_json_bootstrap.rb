@@ -1,4 +1,7 @@
 class SimpleJSON
+	def self.bootstrap(opts)
+		Bootstrap.config(opts)
+	end
 	# ///////////////////////////////////////////////////////////////////////////////////////
 	# 
 	# Author:: lp (mailto:lp@spiralix.org)

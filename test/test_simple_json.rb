@@ -11,6 +11,10 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		@@id = Time.now.to_i.to_s + rand(1000).to_s
 	}
 	
+	def setup
+		SimpleJSON.bootstrap(File.join( File.dirname( File.expand_path(__FILE__)), '..','simple_json_config.rb'))
+	end
+	
 	def test_01_bootload
 		@@sdb = AwsSdb::Service.new
 		config = eval(File.open(File.join( File.dirname( File.expand_path(__FILE__)), '..','simple_json_config.rb'), 'r').read)
