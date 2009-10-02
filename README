@@ -10,17 +10,38 @@ O))    O))O)) O))  O)  O))O)) O)) O))O)    O)   O))O))    O)) O))     O)) O))   
                           O))                                                         
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-SimpleJSON is a JSON frontend server to Amazon's SimpleDB,
-designed to be used as a simple backend data servers for client side web apps.
+SimpleJSON is a Rack based JSON frontend server to Amazon's SimpleDB,
+designed to be used as a simple backend data server for client side web apps.
+SimpleJSON makes no attempts at being buzzword compliant... no RESTfull API, pleeease!
 
-- Client agnostic, works with any XHR.
-- All XHR are packed inside "HTTP POST" bodies.
+- Light and fast.
+- Ruby/Rack based, can be deployed easily on any Rack aware web server.
+- Client agnostic, works with any XHR clientside technology understanding JSON.
 - Schema less, same as underlying SimpleDB technology.
-- Map HTTP paths to SimpleDB domains and actions.
-- Uses SimpleDB query syntax.
-- All request objects identifiers are specified as JSON objects tree, allowing multi-objects fetching   in one request.
-- Allows "Get" and "Set" with single multiple rows/fields specified as JSON objects.
-- Ruby/Rack based, can be deployed on any Rack aware web server.
+- Uses SimpleDB query syntax with simple results filtering and expanding enhancements.
+- All request are specified as JSON tree of hashes, allowing multi-objects fetching in one request.
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+ Copyright (c) 2009 Louis-Philippe Perron
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
  
