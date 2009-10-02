@@ -4,7 +4,7 @@ require 'json'
 
 # require File.join( File.dirname( File.expand_path(__FILE__)), '..','aws-sdb','lib','aws_sdb')
 require 'aws_sdb'
-require File.join( File.dirname( File.expand_path(__FILE__)), '..','simple_json')
+require File.join( File.dirname( File.expand_path(__FILE__)), '..', 'lib', 'simple_json')
 
 class TestSimpleJSONDB < Test::Unit::TestCase
 	BEGIN {
