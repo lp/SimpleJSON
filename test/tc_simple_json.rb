@@ -79,7 +79,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[@@id]['more'].size == 2, 'append data?')
 	end
 	
-	def test_08_query_all
+	def test_08_query_id_only
 		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate({'' => nil}))[2])
 		assert(o_data.is_a?(Hash),'query all is not a Hash?')
 		assert(o_data.size == 1,'query all Hash contains more than one key value pair')
@@ -87,7 +87,16 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[''].to_a.map { |obj| obj[1] }.uniq.size == 1,'query all Hash does not bring id => nil? ')
 	end
 	
-	def test_09_query_specific_all
+	def test_09_query_all
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate({'' => true}))[2])
+		assert(o_data.is_a?(Hash),'query all is not a Hash?')
+		assert(o_data.size == 1,'query all Hash contains more than one key value pair')
+		assert(o_data.has_key?(''),'query all Hash does not contain the query string as key')
+		assert(o_data[''].has_key?(@@id))
+		assert(o_data[''][@@id].size > 1)
+	end
+	
+	def test_10_query_specific_all
 		query = "['name' = '#{@@id}']"
 		t_data = {query => true}
 		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
@@ -98,7 +107,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[query][@@id].size == @@i_data[@@id].size)
 	end
 	
-	def test_10_query_specific_none
+	def test_11_query_specific_none
 		query = "['name' = '#{@@id}']"
 		t_data = {query => nil}
 		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
@@ -109,7 +118,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[query][@@id].nil?)
 	end
 	
-	def test_11_query_specific_some
+	def test_12_query_specific_some
 		query = "['name' = '#{@@id}']"
 		t_data = {query => {'name' => nil, 'more' => nil}}
 		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
@@ -120,7 +129,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[query][@@id].size == 2)
 	end
 	
-	def test_12_delete
+	def test_13_delete
 		o_data = JSON.parse( SimpleJSON.rack_mock(:delete, JSON.generate({@@id => nil}))[2])
 		assert(o_data.is_a?(Hash))
 		assert(o_data.size == 1)
@@ -135,7 +144,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[@@id].empty?)
 	end
 	
-	def test_13_other_config
+	def test_14_other_config
 		domain = 'other_test_domain'
 		o_data = JSON.parse( SimpleJSON.rack_mock(:delete, JSON.generate({@@id => nil}), {'AMAZON_DOMAIN' => domain})[2])
 		assert(@@sdb.list_domains[0].include?(domain), 'other domain')
