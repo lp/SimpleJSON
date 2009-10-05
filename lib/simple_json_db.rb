@@ -57,10 +57,10 @@ class SimpleJSON
 					elsif r_data.is_a?(Hash)
 						mem[obj[0]] = r_data
 					else
-						mem[obj[0]] = [false, "SDB Error. Unable to 'put attributes'"]
+						mem[obj[0]] = {'error', "SDB ERROR! Transaction returned: #{r_data.inspect}"}
 					end 
 				rescue => ex
-					mem[obj[0]] =  [false, "#{ex.class}: #{ex.message}"]
+					mem[obj[0]] =  {"error", "#{ex.class}: #{ex.message}"}
 				end
 				mem
 			end
@@ -74,7 +74,7 @@ class SimpleJSON
 				if ids.is_a?(Array)
 					ids.inject(Hash.new) { |mem,id| mem[id] = query_get(id,v); mem }
 				else
-					return [false,"Query Failed: v:#{v.inspect} | r:#{r_ids.inspect}"]
+					return "Query Failed: v:#{v.inspect} | r:#{r_ids.inspect}"
 				end
 			end
 		end
