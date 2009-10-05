@@ -4,7 +4,7 @@ require 'rake/gempackagetask'
 
 spec = Gem::Specification.new do |s|
   s.name = 'simple-json'
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.author = 'Louis-Philippe Perron'
   s.email = 'lp@spiralix.org'
   s.homepage = 'http://simple-json.rubyforge.org/'
@@ -16,7 +16,7 @@ spec = Gem::Specification.new do |s|
 	s.add_dependency("rack", '>= 0.0.0')
   s.add_dependency("json", '>= 0.0.0')
 	s.add_dependency("aws-sdb", '>= 0.0.0')
-	s.requirements << 'an Amazon Web Service account to access SimpleDB'
+	s.requirements << 'an Amazon Web Service Secret Key to access SimpleDB'
 end
 Rake::GemPackageTask.new(spec) do |pkg|
   pkg.need_tar = true
