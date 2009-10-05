@@ -84,7 +84,33 @@ class SimpleJSON
 			if v.nil? || v == true || v == false
 				r_data
 			else
-				v.to_a.inject(Hash.new) { |mem,obj| mem[obj[0]] = r_data[obj[0]]; mem }
+				v.to_a.inject(Hash.new) do |mem,obj|
+					if obj[1].nil? || obj[1] == true || obj[1] == false
+						mem[obj[0]] = r_data[obj[0]]
+					elsif obj[1].is_a?(Integer)
+						mem[obj[0]] = r_data[obj[0]][obj[1]]
+					elsif obj[1] == 'first'
+						mem[obj[0]] = r_data[obj[0]].first
+					elsif obj[1] == 'last'
+						mem[obj[0]] = r_data[obj[0]].last
+					elsif obj[1] 	=~ /^([^\.]+)(\.\.\.*)([^\.]+)$/
+						one = $1.to_i; three = $3.to_i
+						if one.is_a?(Integer) and three.is_a?(Integer)
+							if $2 == '..'
+								mem[obj[0]] = r_data[obj[0]][one..three]
+							elsif $2 == '...'
+								mem[obj[0]] = r_data[obj[0]][one...three]
+							else
+								mem[obj[0]] = {'error' => "Bad slice syntax, you wrote: < #{$2} >, should have been < .. > or < ... >."}
+							end
+						else
+							mem[obj[0]] = {'error' => "Bad slice syntax, must be 2 integers with dots in between... i.e. < 11..14 >"}
+						end
+					else
+						mem[obj[0]] = {'error' => "Unknown key fetching syntax: #{obj[1].inspect}"}
+					end
+					mem
+				end
 			end
 		end
 
