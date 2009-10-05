@@ -129,7 +129,88 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[query][@@id].size == 2)
 	end
 	
-	def test_13_delete
+	def test_13_get_array_item
+		o_data = JSON.parse( SimpleJSON.rack_mock(:add, JSON.generate({@@id => {'list' => 'item1'}}))[2])
+		assert(o_data[@@id] == true,'add more again?')
+		o_data = JSON.parse( SimpleJSON.rack_mock(:add, JSON.generate({@@id => {'list' => 'item2'}}))[2])
+		assert(o_data[@@id] == true,'add more again?')
+		o_data = JSON.parse( SimpleJSON.rack_mock(:add, JSON.generate({@@id => {'list' => 'item3'}}))[2])
+		assert(o_data[@@id] == true,'add more again?')
+		o_data = JSON.parse( SimpleJSON.rack_mock(:add, JSON.generate({@@id => {'list' => 'item4'}}))[2])
+		assert(o_data[@@id] == true,'add more again?')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => 0}}))[2])
+		assert(o_data.is_a?(Hash))
+		assert(o_data.include?(@@id))
+		assert(o_data[@@id].include?('list'))
+		assert(o_data[@@id]['list'] == 'item1')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => 1}}))[2])
+		assert(o_data[@@id]['list'] == 'item2')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => 2}}))[2])
+		assert(o_data[@@id]['list'] == 'item3')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => 3}}))[2])
+		assert(o_data[@@id]['list'] == 'item4')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => 'first'}}))[2])
+		assert(o_data[@@id]['list'] == 'item1')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => 'last'}}))[2])
+		assert(o_data[@@id]['list'] == 'item4')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => '2..-1'}}))[2])
+		assert(o_data[@@id]['list'].is_a?(Array))
+		assert(o_data[@@id]['list'].size == 2)
+		assert(o_data[@@id]['list'][0] == 'item3')
+		assert(o_data[@@id]['list'][1] == 'item4')
+		
+		o_data = JSON.parse( SimpleJSON.rack_mock(:get, JSON.generate({@@id => {'list' => '0...2'}}))[2])
+		assert(o_data[@@id]['list'].size == 2)
+		assert(o_data[@@id]['list'][0] == 'item1')
+		assert(o_data[@@id]['list'][1] == 'item2')
+	end
+	
+	def test_14_query_array_item
+		query = "['name' = '#{@@id}']"
+		
+		t_data = {query => {'list' => 0}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'] == 'item1')
+		
+		t_data = {query => {'list' => 1}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'] == 'item2')
+		
+		t_data = {query => {'list' => 2}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'] == 'item3')
+		
+		t_data = {query => {'list' => 3}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'] == 'item4')
+		
+		t_data = {query => {'list' => 'first'}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'] == 'item1')
+		
+		t_data = {query => {'list' => 'last'}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'] == 'item4')
+		
+		t_data = {query => {'list' => '2..-1'}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'][0] == 'item3')
+		assert(o_data[query][@@id]['list'][1] == 'item4')
+		
+		t_data = {query => {'list' => '0...2'}}
+		o_data = JSON.parse( SimpleJSON.rack_mock(:query, JSON.generate(t_data))[2])
+		assert(o_data[query][@@id]['list'][0] == 'item1')
+		assert(o_data[query][@@id]['list'][1] == 'item2')
+	end
+	
+	def test_20_delete
 		o_data = JSON.parse( SimpleJSON.rack_mock(:delete, JSON.generate({@@id => nil}))[2])
 		assert(o_data.is_a?(Hash))
 		assert(o_data.size == 1)
@@ -144,7 +225,7 @@ class TestSimpleJSONDB < Test::Unit::TestCase
 		assert(o_data[@@id].empty?)
 	end
 	
-	def test_14_other_config
+	def test_21_other_config
 		domain = 'other_test_domain'
 		o_data = JSON.parse( SimpleJSON.rack_mock(:delete, JSON.generate({@@id => nil}), {'AMAZON_DOMAIN' => domain})[2])
 		assert(@@sdb.list_domains[0].include?(domain), 'other domain')
